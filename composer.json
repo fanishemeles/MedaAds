@@ -1,0 +1,15 @@
+{
+    "name": "medaads/app",
+    "description": "Simple ad management platform with PHP 8.3 and MySQL",
+    "type": "project",
+    "require": {
+        "php": "^8.3"
+    },
+    "autoload": {
+        "files": [
+            "app/helpers.php",
+            "app/db.php",
+            "app/auth.php"
+        ]
+    }
+}
