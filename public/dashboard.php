@@ -109,7 +109,10 @@ $user = current_user();
         <div class="container-fluid">
             <a class="navbar-brand" href="#">MedaAds</a>
             <div class="d-flex align-items-center ms-auto">
-                <span class="me-3">Welcome, <?php echo e($user['name'] ?? ''); ?></span>
+                <span class="me-3">Welcome, <?php echo e($user['email'] ?? ''); ?></span>
+                <?php if (!empty($user['role'])): ?>
+                    <span class="badge bg-info text-dark me-3">Role: <?php echo e(ucfirst($user['role'])); ?></span>
+                <?php endif; ?>
                 <a class="btn btn-outline-light btn-sm" href="logout.php">Logout</a>
             </div>
         </div>
