@@ -9,7 +9,7 @@ function login(string $email, string $password): bool
 {
     $pdo = get_pdo();
 
-    $statement = $pdo->prepare('SELECT id, name, email, password_hash FROM users WHERE email = :email LIMIT 1');
+    $statement = $pdo->prepare('SELECT id, email, password_hash, role FROM users WHERE email = :email LIMIT 1');
     $statement->execute(['email' => $email]);
     $user = $statement->fetch();
 
@@ -24,7 +24,8 @@ function login(string $email, string $password): bool
     ensure_session();
     session_regenerate_id(true);
     $_SESSION['user_id'] = (int) $user['id'];
-    $_SESSION['user_name'] = $user['name'];
+    $_SESSION['user_email'] = $user['email'];
+    $_SESSION['user_role'] = $user['role'];
 
     return true;
 }
@@ -62,13 +63,16 @@ function current_user(): ?array
     }
 
     $pdo = get_pdo();
-    $statement = $pdo->prepare('SELECT id, name, email FROM users WHERE id = :id LIMIT 1');
+    $statement = $pdo->prepare('SELECT id, email, role FROM users WHERE id = :id LIMIT 1');
     $statement->execute(['id' => $_SESSION['user_id']]);
     $result = $statement->fetch();
 
     if (!$result) {
         return null;
     }
+
+    $_SESSION['user_email'] = $result['email'];
+    $_SESSION['user_role'] = $result['role'];
 
     $user = $result;
 

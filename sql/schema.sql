@@ -3,10 +3,9 @@ USE medaads;
 
 CREATE TABLE IF NOT EXISTS users (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
     email VARCHAR(150) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    role VARCHAR(50) NOT NULL DEFAULT 'user'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS placements (
@@ -31,9 +30,9 @@ CREATE TABLE IF NOT EXISTS ads (
     CONSTRAINT fk_ads_placement FOREIGN KEY (placement_id) REFERENCES placements(id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO users (name, email, password_hash) VALUES
-    ('Admin User', 'admin@medaads.test', '$2y$12$PfBF5N3glJtZ58lvjcYKxOxq0qbCl3jpdCDggbC.7sDMtrzCMTayC')
-ON DUPLICATE KEY UPDATE email = VALUES(email);
+INSERT INTO users (email, password_hash, role) VALUES
+    ('admin@medaads.test', '$2y$12$PfBF5N3glJtZ58lvjcYKxOxq0qbCl3jpdCDggbC.7sDMtrzCMTayC', 'admin')
+ON DUPLICATE KEY UPDATE email = VALUES(email), role = VALUES(role);
 
 INSERT INTO placements (name, description) VALUES
     ('Homepage Hero', 'Large banner displayed on the homepage hero area'),
