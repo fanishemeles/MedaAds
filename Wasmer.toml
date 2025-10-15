@@ -1,0 +1,10 @@
+[package]
+name = "MedaAds"
+version = "0.1.0"
+[dependencies]
+php = "8.3.*"
+php-pdo = "*"
+php-mysqli = "*"
+php-session = "*"
+[command]
+start = "php -S 0.0.0.0:8080 -t public"
